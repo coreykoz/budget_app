@@ -3,18 +3,216 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
         <!-- Boostrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        
+        <!--Chart.js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+        <!--Custom Code-->
+        <link rel="stylesheet" href="main.css">
+        
         <title>Budget Tracker</title>
     </head>
     <body>
-        <H1>test</H1>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Budget Tracker</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+              </ul> 
+            </div>
+        </nav>
 
-        <!-- Javascript -->
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md">
+                    <div class="container">
+                        <h3 class="text-center">Monthly Spending by Category</h3>
+                        <canvas id="monthySpending" ></canvas>
+                    </div>
+                </div>
+                <div class="col-md"> 
+                    <h3>Total Available:</h3> <br>
+                    <h4 id = "totalMoney"> </h4>
+
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#incomeModal">Add Income</button> <br> <br>
+
+                    <!--Modal for Income-->
+                    <div class="modal fade" id="incomeModal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Add Income</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class = "container form-group pt-5">
+                                        <form>
+                                            <input type="text" name="incomeName" id="incomeName" class="form-control"  placeholder="Income Name"/><br>
+              
+                                            <input type="number" name="incomeTotal" id="incomeTotal" class="form-control" placeholder="Income Total" required/><br>
+                          
+                                            <input type="date" name="incomeDate" id="incomeDate" class="form-control" placeholder="Income Date" required/><br>
+                          
+                                            <div class="form-group">
+                                                <label for="incomeCategory">Category</label>
+                                                <select required class="form-control" id="incomeCategory">
+                                                    <option>Cash</option>
+                                                    <option>Direct Deposit</option>
+                                                    <option>Check</option>
+                                                    <option>Gift</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                      
+                                 <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="createIncome(),window.location.reload()" data-dismiss="modal">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#expenseModal">Add Expense</button>
+                    <br> <br> 
+
+                    <!--Modal for Expense-->
+                    <div class="modal fade" id="expenseModal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Add Expense</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                      
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class = "container form-group pt-5">
+                                        <input type="text" name="expenseName" id="expenseName" class="form-control" placeholder="Expense Name" required><br>
+              
+                                        <input type="number" name="expenseTotal" id="expenseTotal" class="form-control" placeholder="Expense Total" required><br>
+                          
+                                        <input type="date" name="expenseDate" id="expenseDate" class="form-control" placeholder="Expense Date" required><br>
+
+                                        <div class="form-group">
+                                            <label for="expenseCategory">Category</label>
+                                            <select class="form-control" id="expenseCategory">
+                                                <option>Grocery</option>
+                                                <option>Transportation & Gas</option>
+                                                <option>Entertainment</option>
+                                                <option>Loans & Other Payments</option>
+                                                <option>Shopping</option>
+                                                <option>Bills & Insurance</option>
+                                                <option>Restaurant & Dining</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                      
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="createExpense(),window.location.reload()" data-dismiss="modal">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <!--- Monthly expense table, removed 
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Monthly Expenses</th>
+                                <th scope="col">Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthly_table">
+                        </tbody>
+                    </table>
+
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#monthlyModal">Edit Monthly Expenses</button> 
+                    -->
+
+                    <!--Modal for Monthly Expense, removed
+                    <div class="modal fade" id="monthlyModal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Edit Monthly Expenses</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                      
+                                
+                                <div class="modal-body">
+                                    <div class = "container form-group pt-5">
+                                        <input type="text" name="monthlyName" id="monthlyName" class="form-control" placeholder="Monthly Expense Name" required><br>
+                                        <input type="number" name="monthlyTotal" id="monthlyTotal" class="form-control" placeholder="Monthly Expense Total" required><br>
+                                    </div>
+                                </div>
+                      
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="updateMonthly(), window.location.reload()" data-dismiss="modal">Edit/Create</button>
+                                    <button type="button" class="btn btn-primary" onclick="deleteMonthly(), window.location.reload()" data-dismiss="modal">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <h3 class="text-center" id="transaction_sec">Transactions</h3>
+            <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="trans_table">
+            
+                </tbody>
+              </table>
+        </div>
 
         <!-- Boostrap JS -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+        <!-- Javascript -->
+        <script src="scripts.js"></script>
+        <script src="charts.js"></script>
+        <script>
+            drawMonthlyPieChart();
+        </script>
+
     </body>
 </html>
