@@ -43,16 +43,21 @@ export class Database {
 	})();
     }
 	
-    async put(){
+    async put(name, type, category, date, amt, id){
 	    let db = this.client.db(this.dbName);
 	    let collection = db.collection(this.collectionName);
 
-		var result = await collection.updateOne({'monthly_expense': name, 'id': id}, { $set : { 'monthly_cost' : total} }, { 'upsert' : true });
+        if(id == "Budget"){
+            var result = await collection.updateOne({'budget_name': name, 'amount': amt, 'id': id}, { $set : { 'amount' : amt} }, { 'upsert' : true });
+        } else {
+            var result = await collection.updateOne({'name': name, 'type': type, 'category': category, 'date': date, 'amount': amt, 'id':id}, { $set : { 'amount' : amt} }, { 'upsert' : true });
+        }
 	}
 
-    async get(){
-		let db = this.client.db(this.dbName); // this.level(this.dbFile);
-		let collection = db.collection(this.collectionName);
+    async get(id){
+		let db = this.client.db(this.dbName);
+        let collection = db.collection(this.collectionName);
+        
 		let result = await collection.find({'id': id}).toArray();
 		if (result) {
 		    return result;
@@ -61,10 +66,10 @@ export class Database {
 		}
     }
 
-    async del(name, id) {
+    async del(name, type, category, date, amt, id) {
 	    let db = this.client.db(this.dbName);
 	    let collection = db.collection(this.collectionName);
 
-	    var result = await collection.deleteOne({'monthly_expense' : name});
+	    var result = await collection.deleteOne({'name': name, 'type': type, 'category': category, 'date': date, 'amount': amt, 'id': id});
 	}
 }

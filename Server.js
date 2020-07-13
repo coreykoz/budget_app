@@ -26,13 +26,13 @@ export class Server {
         this.server.use(express.json());
 
         //Add CRUD Functionality
-	    this.router.post('/createTransaction', this.createTransactionHandler.bind(this));
+        this.router.post('/createTransaction', this.createTransactionHandler.bind(this));
 
-	    this.router.post('/readTransaction', this.readTransactionHandler.bind(this));
+        this.router.post('/readTransaction', this.readTransactionHandler.bind(this));
 
-	    this.router.post('/updateTransaction', this.updateTransactionHandler.bind(this));
+        this.router.post('/updateTransaction', this.updateTransactionHandler.bind(this));
 
-	    this.router.post('/deleteTransaction', this.deleteTransactionHandler.bind(this));
+        this.router.post('/deleteTransaction', this.deleteTransactionHandler.bind(this));
 
 	    this.router.post('*', async (request, response) => {
 	        response.send(JSON.stringify({ "result" : "command-not-found" }));
@@ -40,13 +40,13 @@ export class Server {
         this.server.use('/personalbudget', this.router);
 
     }
+    //{'name': name, 'type': type, 'category': category, 'date': date, 'amount': amt}
 
+    //Creates
     async createTransactionHandler(request, response){
         //Put object into database
-		await this.database.put();
-		response.write(JSON.stringify({'result' : 'created',
-					       'transaction' : request.body.income_name
-					       }));
+		await this.database.put(request.body.name, request.body.type, request.body.category, request.body.date, request.body.amt, request.body.id);
+		response.write(JSON.stringify({'result' : 'created', 'transaction' : request.body.name}));
 		response.end();
     }
     
@@ -59,17 +59,15 @@ export class Server {
     
     async updateTransactionHandler(request, response){
         //Put object into database, deal with modification via DB code
-		await this.database.put(request.body.monthly_expense, request.body.monthly_cost, "unused", "unused", "unused", request.body.id);
-		response.write(JSON.stringify({'result' : 'updated',
-				       'name' : request.body.monthly_expense}));
+		await this.database.put(request.body.name, request.body.type, request.body.category, request.body.date, request.body.amt, request.body.id);
+		response.write(JSON.stringify({'result' : 'updated', 'name' : request.body.name}));
 		response.end();
     }
     
     async deleteTransactionHandler(request, response){
         //Delete object from database
-		await this.database.del();
-		response.write(JSON.stringify({'result' : 'deleted',
-					       'value'  : request.body.expense_name }));
+		await this.database.del(request.body.name, request.body.type, request.body.category, request.body.date, request.body.amt, request.body.id);
+		response.write(JSON.stringify({'result' : 'deleted', 'value'  : request.body.name }));
 		response.end();
 	}
 
