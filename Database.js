@@ -69,7 +69,11 @@ export class Database {
     async del(name, type, category, date, amt, id) {
 	    let db = this.client.db(this.dbName);
 	    let collection = db.collection(this.collectionName);
-
-	    var result = await collection.deleteOne({'name': name, 'type': type, 'category': category, 'date': date, 'amount': amt, 'id': id});
+		
+		if (id == "Budget"){
+			var result = await collection.deleteOne({'budget_name': name, 'amount': amt, 'id': id});
+		} else{
+			var result = await collection.deleteOne({'name': name, 'type': type, 'category': category, 'date': date, 'amount': amt, 'id': id});
+		}
 	}
 }

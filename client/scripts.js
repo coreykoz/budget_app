@@ -148,9 +148,23 @@ async function deleteTransaction(){
     if (name == "" || amt == "" || date == "" || category == "" || type == "" || id == "")
         return;
 
-    
+    let data = {'name': name, 'type': type, 'category': category, 'date': date, 'amount': amt, 'id': id};
+
+    const newURL = url + "/deleteTransaction"; 
+    const response = await postData(newURL, data);
+    const j = await response.json();
 }
 
 async function deleteBudget(){
+    let name = document.getElementById("").value;
+    let amt = document.getElementById("").value;
+    let id = document.getElementById("").value;
 
+    if (name == "" || amt == "" || id == "")
+        return;
+
+    let data = data_budget = {'budget_name': name, 'amount': amt, 'id': id};
+    const newURL = url + "/deleteTransaction"; 
+    const response = await postData(newURL, data);
+    const j = await response.json();
 }

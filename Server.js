@@ -66,8 +66,9 @@ export class Server {
     
     async deleteTransactionHandler(request, response){
         //Delete object from database
+       
 		await this.database.del(request.body.name, request.body.type, request.body.category, request.body.date, request.body.amt, request.body.id);
-		response.write(JSON.stringify({'result' : 'deleted', 'value'  : request.body.name }));
+		response.write(JSON.stringify({'result' : 'deleted', 'value'  : request.body.name}));
 		response.end();
 	}
 
