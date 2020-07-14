@@ -4,15 +4,16 @@ let express = require('express');
 
 class Server {
 
-    database;
-
-    // Server stuff: use express instead of http.createServer
-    server = express();
-    port = 8080;
-    router = express.Router();
+    
+    
     
     constructor(db_name) {
         this.database = db_name;
+        // Server stuff: use express instead of http.createServer
+        this.server = express();
+        this.port = 8080;
+        this.router = express.Router();
+        
         // from https://enable-cors.org/server_expressjs.html
         this.router.use((request, response, next) => {
             response.header('Content-Type','application/json');

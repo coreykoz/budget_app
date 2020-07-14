@@ -1,4 +1,4 @@
-const {Mongo} = require('mongodb');
+let {Mongo} = require('mongodb');
 class Database {
 
     constructor(collectionName) {
