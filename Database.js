@@ -1,4 +1,4 @@
-export class Database {
+ class Database {
 
 	MongoClient = require('mongodb').MongoClient;
     uri;

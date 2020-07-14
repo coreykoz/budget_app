@@ -2,7 +2,7 @@ let http = require('http');
 let url = require('url');
 let express = require('express');
 
-export class Server {
+class Server {
 
     database;
 
