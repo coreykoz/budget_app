@@ -1,13 +1,14 @@
 const {Mongo} = require('mongodb');
 class Database {
 
-	MongoClient = new Mongo(uri);
+	MongoClient;
     uri;
     client;
     collectionName;
     dbName = "corey_finances";
 
     constructor(collectionName) {
+        this.MongoClient =  = new Mongo(uri);
 	this.collectionName = collectionName;
 	
 	let secrets;
