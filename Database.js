@@ -1,6 +1,7 @@
- class Database {
+const {Mongo} = require('mongodb');
+class Database {
 
-	MongoClient = require('mongodb').MongoClient;
+	MongoClient = new Mongo(uri);
     uri;
     client;
     collectionName;
