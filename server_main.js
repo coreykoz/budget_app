@@ -1,8 +1,8 @@
 'use strict';
 
 //1: Import Server classes/DB classes
-let val = require('./Database.js');
-const { Database } = val;
+const val = require('./Database.js');
+let { Database } = val;
 const val2 = require('./Server.js');
 let { Server } = val2;
 
