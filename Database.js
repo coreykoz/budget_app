@@ -1,26 +1,21 @@
 const {Mongo} = require('mongodb');
 class Database {
 
-	MongoClient;
-    uri;
-    client;
-    collectionName;
-    dbName = "corey_finances";
-
     constructor(collectionName) {
         this.MongoClient =  = new Mongo(uri);
-	this.collectionName = collectionName;
-	
-	let secrets;
-    let password;
-    if (!process.env.PASSWORD) {
-    	secrets = require('./pin.json');
-    	password = secrets.password;
-    } else {
-        password = process.env.PASSWORD;
-    }
-    this.uri = password;
-    this.client = new this.MongoClient(this.uri, { useNewUrlParser: true });
+	    this.collectionName = collectionName;
+        this.dbName = "corey_finances";
+
+	    let secrets;
+        let password;
+        if (!process.env.PASSWORD) {
+        	secrets = require('./pin.json');
+        	password = secrets.password;
+        } else {
+            password = process.env.PASSWORD;
+        }
+        this.uri = password;
+        this.client = new this.MongoClient(this.uri, { useNewUrlParser: true });
 	// Open up a connection to the client.
 	// Open up a connection to the client.
 	// The connection is asynchronous, but we can't call await directly
@@ -40,9 +35,9 @@ class Database {
 	   })();
 
 	*/
-	(async () => {
+	    (async () => {
 	    await this.client.connect().catch(err => { console.log(err); });
-	})();
+	    })();
     }
 	
     async put(name, type, category, date, amt, id){
